@@ -1,0 +1,5 @@
+The scripts in this section include:-
+
+(1) A hasher (creates hashes of given string inputs)
+(2) A hash decoder (supports MD5, SHA1, SHA224, SHA256 and SHA512)
+(3) A hash encryption brute forcer [uses a list of known passwords, hashes them and compares the results with given hashes]
