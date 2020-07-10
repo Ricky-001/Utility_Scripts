@@ -1,0 +1,10 @@
+administrator
+admin
+root
+toor
+msfadmin
+password
+admin123
+password123
+metasploitable
+anonymous

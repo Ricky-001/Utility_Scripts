@@ -1,0 +1,13 @@
+admin:administrator
+admin:admin
+admin:pass
+admin:password
+root:root
+root:toor
+msfadmin:msfadmin
+msfadmin:password
+administrator:password
+admin123:password
+admin123:password123
+admin:metasploitable
+anonymous:anonymous
