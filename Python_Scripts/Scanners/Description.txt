@@ -1,0 +1,5 @@
+This section contains a port scanner and a vulnerability scanner
+
+* Note:-
+The vulnerability scanner depends upon a banner retrieval concept and compares them with a list of vulnerable banners that needs to be updated
+* List of vulnerable banners : vuln.txt
