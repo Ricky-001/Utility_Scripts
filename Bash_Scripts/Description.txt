@@ -1,0 +1,2 @@
+This section contains a handful of bash scripts to automate the setting up of a Wi-Fi network card into and out of monitor mode 
+as well as a simple signal jammer for the Local Area Network or a particular client connected to the LAN (using the aireplay deauthentication)
