@@ -1,0 +1,5 @@
+This section contains a simple keylogger program written in C++ along with its corresponding *.exe file
+
+* Note:-
+[-] The program doesn't always capture the special characters from the keyboard
+[!] It logs the captured keystrokes on the victim machine itself
