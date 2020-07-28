@@ -1,0 +1,1 @@
+This directory contains the guides to use the scripts either in a manual or a slightly more automated way.
