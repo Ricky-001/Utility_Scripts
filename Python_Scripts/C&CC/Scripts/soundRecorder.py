@@ -78,8 +78,10 @@ def makeFile(file_path, stop_thread):
 # WHEN THIS EVENT IS SET, THIS SCRIPT STOPS RUNNING 
 # HANDLED IN THE record() METHOD
 def startRecording(stop_thread):
-
-	rec_path = os.environ["appdata"] + "\\Record.wav"
+	try:
+		rec_path = os.environ["appdata"] + "\\Record.wav"
+	except:
+		rec_path = os.environ["HOME"] + "/Record.wav"
 	makeFile(rec_path, stop_thread)
 	
 #startRecording()
