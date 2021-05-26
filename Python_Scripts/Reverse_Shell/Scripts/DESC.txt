@@ -1,5 +1,0 @@
-This directory contains the main Scripts of the Reverse Shell
-1) handler.py         =         The controller [server side]
-2) reverse_shell.py   =         The payload [client side]
-3) keyLogger.py       =         A keylogger, implemented in the reverse_shell.py
-4) soundRecorder.py   =         An audio recorder, implemented within reverse_shell.py

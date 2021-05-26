@@ -1,9 +1,0 @@
-This directory contains the Resources used/ can be used to disguise the Reverse Shell payload
-
-[*] Contains icons that can be used as the payload icon
-[*] Contains a PDF and a PNG file, either of which can be used as the main resource
-behind which the payload hides
-
-[!!] By default, the image icon is placed in the payload along with the PNG resource,
-when compiled using the Reverse_Shell.sh script from the parent directory
-as directed in the README_FIRST.txt and README_AUTOMATIC.txt

@@ -1,1 +1,0 @@
-This section contains scripts that involve networking, such as ARP spoofer, DNS spoofer, credential sniffer (for HTTP sites) FTP sniffer, MAC changer and SYN flooder.

